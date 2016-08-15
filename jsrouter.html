@@ -1,0 +1,91 @@
+<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+<div style="text-align:center;margin-top:200px;" id="demoId">
+
+</div>
+
+<pre>
+    <a href="jsrouter.html">index</a> <br>
+    <a href="jsrouter.html#/show/abc">#/show/abc</a> <br>
+    <a href="jsrouter.html#/list/product/hello123">#/list/product/hello123</a> <br>
+</pre>
+
+</body>
+</html>
+<script type="text/javascript">
+    ;(function(WIN, DOC) {
+        var Router = function() {
+            function Router() {
+
+            }
+            Router.prototype.debug = function () {
+                if (typeof console =='object' && console.debug) {
+                    for (var i = 0; i < arguments.length; i++) {
+                        console.debug(arguments[i]);
+                    }
+                }
+            };
+            Router.prototype.setup = function (routemap, defaultFunc) {
+                var that = this, rule, func;
+                this.routemap = [];
+                this.defaultFunc = defaultFunc; //默认控制器方法
+                for (var rule in routemap) {
+                    if (!routemap.hasOwnProperty(rule)) continue;
+                    that.routemap.push({
+                        rule: new RegExp(rule, 'i'),
+                        func: routemap[rule]
+                    });
+                }
+            };
+            Router.prototype.start = function () {
+                this.debug("当前hash值：", window.location.hash);
+                var hash = location.hash, route, matchResult;
+                for (var routeIndex in this.routemap) {
+                    route = this.routemap[routeIndex];
+                    matchResult = hash.match(route.rule);
+                    if (matchResult) {
+                        route.func.apply(window, matchResult.slice(1));
+                        return;
+                    }
+                }
+                this.defaultFunc();
+            };
+            //初始化
+            Router.prototype.init = function () {
+
+                return this;
+            };
+
+
+            return Router;
+        }();
+        var entry = function() {
+            var instance = new Router();
+            return instance.init();
+        };
+        WIN["cjsRoute"] = entry;
+    })(window, document);
+    var router = new cjsRoute();
+
+    router.setup({
+        '#/list/([^/]*)/([^/]*)$': function (cate, id) {// /jsrouter.html#/list/product/hello123
+            console.log('list', cate, id);
+        },
+        '#/show/([^/]*)$': function (id) {// /jsrouter.html#/show/abc
+            console.log('show', id);
+        }
+    }, function () {
+        //默认控制器
+        console.log('default router执行的方法');
+    });
+    router.start();
+
+
+    window.addEventListener("hashchange", function () {
+        router.start();
+    }, false);
+</script>
