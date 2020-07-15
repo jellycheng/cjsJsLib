@@ -1,6 +1,6 @@
 {
   "name": "cjslib",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "cjs js package",
   "main": "index.js",
   "scripts": {
