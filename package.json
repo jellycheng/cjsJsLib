@@ -1,0 +1,23 @@
+{
+  "name": "cjslib",
+  "version": "1.0.0",
+  "description": "cjs js package",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jellycheng/cjsJsLib.git"
+  },
+  "keywords": [
+    "js",
+    "lib"
+  ],
+  "author": "cjs",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jellycheng/cjsJsLib/issues"
+  },
+  "homepage": "https://github.com/jellycheng/cjsJsLib#readme"
+}
